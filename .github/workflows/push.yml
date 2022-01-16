@@ -3,7 +3,7 @@ on: # rebuild any PRs and main branch changes
   workflow_dispatch:
     inputs:
       rebuild:
-        description: Whether to rebuild all images
+        description: Rebuild all images
         type: boolean
         required: false
   pull_request:
