@@ -1,6 +1,11 @@
 name: "build-images"
 on: # rebuild any PRs and main branch changes
   workflow_dispatch:
+    inputs:
+      rebuild:
+        description: Whether to rebuild all images
+        type: boolean
+        required: false
   pull_request:
   push:
     branches:
@@ -105,7 +110,7 @@ jobs:
       with:
         pattern: ${{ matrix.image }}/**
     - uses: actions/checkout@v1
-      if: steps.is-modified.outputs.modified == 'true' || (github.event_name == 'push' && github.event.ref == 'refs/heads/re-builld-all')
+      if: steps.is-modified.outputs.modified == 'true' || (github.event_name == 'push' && github.event.ref == 'refs/heads/re-builld-all') || (github.event.inputs.rebuild == 'true')
     - run: |
         echo ::group::build image ${{ matrix.image }}:latest
           docker build -t ${{ matrix.image }} ${{ matrix.image }}
