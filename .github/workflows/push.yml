@@ -119,7 +119,7 @@ jobs:
         fi
       if: steps.is-modified.outputs.modified == 'true' || (github.event_name == 'push' && github.event.ref == 'refs/heads/re-builld-all')
     - run: |
-        echo ${{ secrets.DOCKER_HUB_PASSWORD }} | base64 -d | docker login --password-stdin -u whalebrewci
+        # echo ${{ secrets.DOCKER_HUB_PASSWORD }} | base64 -d | docker login --password-stdin -u whalebrewci
         echo ${{ github.token }} | docker login --password-stdin -u ${{ github.actor }} docker.pkg.github.com
         docker tag ${{ matrix.image }} ${{ github.event.repository.owner.name}}/${{ matrix.image }}
         docker tag ${{ matrix.image }} docker.pkg.github.com/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}/${{ matrix.image }}
@@ -129,6 +129,6 @@ jobs:
             docker tag ${{ matrix.image }}:${tag} docker.pkg.github.com/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}/${{ matrix.image }}:${tag}
           done
         fi
-        docker push ${{ github.event.repository.owner.name}}/${{ matrix.image }}
+        # docker push ${{ github.event.repository.owner.name}}/${{ matrix.image }}
         docker push docker.pkg.github.com/${{ github.event.repository.owner.name}}/${{ github.event.repository.name }}/${{ matrix.image }}
       if: github.event_name == 'push' && ( steps.is-modified.outputs.modified == 'true' || github.event.ref == 'refs/heads/re-builld-all')
